@@ -1,8 +1,8 @@
 package com.bsarias.pokeapi.details.data.source
 
-import com.bsarias.pokeapi.details.domain.Pokemon
+import com.bsarias.pokeapi.core.domain.Pokemon
 
 
 interface RemoteDataSource {
-    suspend fun getPokemonByName(name: String): Pokemon
+    suspend fun getPokemonByName(name: String): com.bsarias.pokeapi.core.domain.Pokemon
 }

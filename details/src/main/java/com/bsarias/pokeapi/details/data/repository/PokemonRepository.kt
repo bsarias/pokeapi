@@ -1,8 +1,8 @@
 package com.bsarias.pokeapi.details.data.repository
 
+import com.bsarias.pokeapi.core.domain.Pokemon
 import com.bsarias.pokeapi.details.data.source.PersistenceDataSource
 import com.bsarias.pokeapi.details.data.source.RemoteDataSource
-import com.bsarias.pokeapi.details.domain.Pokemon
 
 class PokemonRepository(
     private val persistenceDataSource: PersistenceDataSource,

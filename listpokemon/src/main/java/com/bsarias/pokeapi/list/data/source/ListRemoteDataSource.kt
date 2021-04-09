@@ -1,7 +1,7 @@
 package com.bsarias.pokeapi.list.data.source
 
-import com.bsarias.pokeapi.list.domain.ListPokemon
+import com.bsarias.pokeapi.core.domain.ListPokemon
 
-interface RemoteDataSource {
+interface ListRemoteDataSource {
     suspend fun doSearch(offset: Int, limit: Int): ListPokemon
 }
