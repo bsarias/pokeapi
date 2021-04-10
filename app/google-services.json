@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "158171539159",
+    "project_id": "pokeapi-8f423",
+    "storage_bucket": "pokeapi-8f423.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158171539159:android:0e6dbd8c32d1501f37b292",
+        "android_client_info": {
+          "package_name": "com.bsarias.pokeapi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158171539159-iibm5qe83fcv4tqjs8s4cv88rqjqskpl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv2xSqeHCxUsZCnKVjvemFJ7NtkLI7WOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158171539159-iibm5qe83fcv4tqjs8s4cv88rqjqskpl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
