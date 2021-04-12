@@ -1,18 +1,14 @@
 package com.bsarias.pokeapi.list.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bsarias.pokeapi.list.R
-import com.bsarias.pokeapi.list.databinding.FragmentListBinding
-import com.bsarias.pokeapi.list.framework.di.ListComponentProvider
-import androidx.activity.viewModels
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.bsarias.pokeapi.core.domain.ListPokemon
+import com.bsarias.pokeapi.list.databinding.FragmentListBinding
+import com.bsarias.pokeapi.list.framework.di.ListComponentProvider
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
@@ -36,8 +32,8 @@ class ListFragment : Fragment() {
         return v
     }
 
-    private fun getState(model: ListViewModel.ListViewState){
-        when(model) {
+    private fun getState(model: ListViewModel.ListViewState) {
+        when (model) {
             is ListViewModel.ListViewState.Loading -> {
                 Snackbar.make(binding.root, "Loading", Snackbar.LENGTH_LONG).show()
             }
@@ -45,16 +41,16 @@ class ListFragment : Fragment() {
                 loadList(model.listPokemon)
             }
             is ListViewModel.ListViewState.Error -> {
-
+                Snackbar.make(binding.root, model.error, Snackbar.LENGTH_LONG).show()
             }
 
         }
     }
 
-    private fun loadList(pokemons: ListPokemon){
+    private fun loadList(pokemons: ListPokemon) {
         val adapter = PokemonAdapter()
         binding.recyclerPokemons.adapter = adapter
-        adapter.pokemons = pokemons.results.toList()
+        adapter.pokemons = pokemons.results
     }
 
 }
