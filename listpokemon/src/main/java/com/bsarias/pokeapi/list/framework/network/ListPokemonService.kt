@@ -9,8 +9,8 @@ interface ListPokemonService {
 
     @GET(LIST_POKEMON)
     suspend fun getListPokemonAsync(
-        @Query("limit") limit: Int,
         @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
     ): Response<SearchAPI>
 }
 

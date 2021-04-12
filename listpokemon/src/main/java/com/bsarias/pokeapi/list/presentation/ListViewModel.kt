@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.bsarias.pokeapi.core.domain.ListPokemon
 import com.bsarias.pokeapi.list.usecases.GetListPokemons
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,12 +35,12 @@ class ListViewModel @Inject constructor(private val getListPokemons: GetListPoke
     private fun loadUsers() {
         viewModelScope.launch(Dispatchers.IO) {
             model.postValue(ListViewState.Loading)
-            val result = try {
-                val pokemons = getListPokemons(100, 50, "pokemons")
-                ListViewState.Success(pokemons)
-            } catch (e: Exception) {
-                ListViewState.Error(e.localizedMessage!!)
-            }
+            lateinit var result: ListViewState
+            getListPokemons(0, 151, "pokemons")
+                .catch { exception -> result = ListViewState.Error(exception.localizedMessage!!) }
+                .collect {
+                    result = ListViewState.Success(it)
+                }
             model.postValue(result)
         }
     }
