@@ -10,8 +10,7 @@ class ListPokemonRepositoryImpl(
 ) : ListPokemonRepository {
     override suspend fun listPokemons(offset: Int, limit: Int, key: String): ListPokemon {
         lateinit var list: ListPokemon
-        var data = listLocalDataSource.getStringSet(key)
-
+        val data = listLocalDataSource.getStringSet(key)
         if (data.isNullOrEmpty()) {
             list = listRemoteDataSource.doSearch(offset, limit)
             listLocalDataSource.saveStringSet(key, list.results)

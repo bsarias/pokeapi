@@ -13,13 +13,13 @@ import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.bsarias.pokeapi.core.domain.ListPokemon
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 
 class ListFragment : Fragment() {
 
-    private var _binding: FragmentListBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentListBinding
 
     @Inject
     lateinit var viewModel: ListViewModel
@@ -27,26 +27,34 @@ class ListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentListBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentListBinding.inflate(inflater, container, false)
         val v = binding.root
         (activity?.applicationContext as ListComponentProvider).provideListComponent().inject(this)
 
-        viewModel.getPokemons().observe(requireActivity(), { pokemons ->
-            Log.e( "message", pokemons.toString())
-            val adapter = PokemonAdapter()
-            binding.recyclerPokemons.adapter = adapter
-            adapter.pokemons = pokemons.results.toList()
-        })
+        viewModel.getPokemons().observe(requireActivity(), Observer(::getState))
         return v
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-}
+    private fun getState(model: ListViewModel.ListViewState){
+        when(model) {
+            is ListViewModel.ListViewState.Loading -> {
+                Snackbar.make(binding.root, "Loading", Snackbar.LENGTH_LONG).show()
+            }
+            is ListViewModel.ListViewState.Success -> {
+                loadList(model.listPokemon)
+            }
+            is ListViewModel.ListViewState.Error -> {
 
-sealed class ListViewState
-object ListSuccess : ListViewState()
-object ListError : ListViewState()
+            }
+
+        }
+    }
+
+    private fun loadList(pokemons: ListPokemon){
+        val adapter = PokemonAdapter()
+        binding.recyclerPokemons.adapter = adapter
+        adapter.pokemons = pokemons.results.toList()
+    }
+
+}
