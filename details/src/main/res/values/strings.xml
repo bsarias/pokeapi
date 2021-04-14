@@ -1,0 +1,10 @@
+<resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="pokemon_name">Pokemon Name</string>
+    <string name="types">Types:</string>
+    <string name="types_of_pokemon">types of pokemon</string>
+    <string name="weight">Weight:</string>
+    <string name="pokemon_weight">pokemon weight</string>
+    <string name="pokemon_height">pokemon height</string>
+    <string name="height">Height:</string>
+</resources>
