@@ -7,16 +7,15 @@ on:
     branches: [ main ]
 
 jobs:
-  unit_tests:
+  testing:
   
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: set up JDK 11
-      uses: actions/setup-java@v2
+    - name: set up JDK 8
+      uses: actions/setup-java@v1
       with:
-        java-version: '11'
-        distribution: 'adopt'
+        java-version: '1.8'
     - name: Run tests
       run: ./gradlew testDebugUnitTest --no-daemon
