@@ -7,10 +7,14 @@ import com.bsarias.pokeapi.list.framework.di.ListComponent
 import com.bsarias.pokeapi.list.framework.di.ListComponentProvider
 
 open class MyApp : Application(), ListComponentProvider {
-    val appComponent: ApplicationComponent = DaggerApplicationComponent.create()
-
+    lateinit var appComponent: ApplicationComponent
 
     override fun provideListComponent(): ListComponent {
         return appComponent.listComponent().create()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        appComponent = DaggerApplicationComponent.factory().create(this)
     }
 }
