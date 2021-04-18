@@ -25,4 +25,14 @@ data class PokemonDB(
             officialArtwork = this.officialArtwork,
         )
     }
+    constructor(pokemon: Pokemon) : this(
+        id = pokemon.id,
+        name = pokemon.name,
+        types = pokemon.types,
+        weight = pokemon.weight,
+        height = pokemon.height,
+        frontDefault = pokemon.frontDefault,
+        officialArtwork = pokemon.officialArtwork
+    )
+
 }

@@ -16,12 +16,6 @@ import javax.inject.Inject
 class DetailsViewModel @Inject constructor(private val getPokemonByName: GetPokemonByName) :
     ViewModel() {
 
-    sealed class DetailsViewState {
-        object Loading : DetailsViewState()
-        class Success(val pokemon: Pokemon) : DetailsViewState()
-        class Error(val error: String) : DetailsViewState()
-    }
-
     private lateinit var pokemonName: String
 
     private val model: MutableLiveData<DetailsViewState> by lazy {

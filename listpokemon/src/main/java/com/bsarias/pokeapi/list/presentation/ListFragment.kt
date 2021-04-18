@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bsarias.pokeapi.core.domain.ListPokemon
-import com.bsarias.pokeapi.core.framework.navigation.InternalNavigation
+import com.bsarias.pokeapi.core.framework.navigation.DETAILS
 import com.bsarias.pokeapi.list.databinding.FragmentListBinding
 import com.bsarias.pokeapi.list.framework.di.ListComponentProvider
 import com.google.android.material.snackbar.Snackbar
@@ -35,15 +35,15 @@ class ListFragment : Fragment(), OnClickItemList {
         return v
     }
 
-    private fun getState(model: ListViewModel.ListViewState) {
+    private fun getState(model: ListViewState) {
         when (model) {
-            is ListViewModel.ListViewState.Loading -> {
+            is ListViewState.Loading -> {
                 Snackbar.make(binding.root, "Loading", Snackbar.LENGTH_LONG).show()
             }
-            is ListViewModel.ListViewState.Success -> {
+            is ListViewState.Success -> {
                 loadList(model.listPokemon)
             }
-            is ListViewModel.ListViewState.Error -> {
+            is ListViewState.Error -> {
                 Snackbar.make(binding.root, model.error, Snackbar.LENGTH_LONG).show()
             }
 
@@ -51,14 +51,13 @@ class ListFragment : Fragment(), OnClickItemList {
     }
 
     private fun loadList(pokemons: ListPokemon) {
-        val adapter = PokemonAdapter()
+        val adapter = PokemonAdapter(this)
         binding.recyclerPokemons.adapter = adapter
         adapter.pokemons = pokemons.results
-        adapter.setOnClick(this)
     }
 
     override fun onClickItem(pokemonName: String) {
-        val deepLink = "${InternalNavigation.DETAILS}$pokemonName".toUri()
+        val deepLink = "${DETAILS}$pokemonName".toUri()
         findNavController().navigate(deepLink)
     }
 

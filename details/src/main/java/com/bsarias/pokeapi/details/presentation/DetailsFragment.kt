@@ -36,16 +36,16 @@ class DetailsFragment : Fragment() {
         return v
     }
 
-    private fun getState(model: DetailsViewModel.DetailsViewState) {
+    private fun getState(model: DetailsViewState) {
         binding.progress.visibility = View.GONE
         when (model) {
-            is DetailsViewModel.DetailsViewState.Loading -> {
+            is DetailsViewState.Loading -> {
                 binding.progress.visibility = View.VISIBLE
             }
-            is DetailsViewModel.DetailsViewState.Success -> {
+            is DetailsViewState.Success -> {
                 loadPokemonData(model.pokemon)
             }
-            is DetailsViewModel.DetailsViewState.Error -> {
+            is DetailsViewState.Error -> {
                 Snackbar.make(binding.root, model.error, Snackbar.LENGTH_LONG).show()
             }
 
