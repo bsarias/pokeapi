@@ -11,7 +11,7 @@ class ListPokemonRepositoryImpl(
     private val listRemoteDataSource: ListRemoteDataSource,
 ) : ListPokemonRepository {
 
-    override suspend fun listPokemons(offset: Int, limit: Int, key: String): Flow<ListPokemon> {
+    override fun listPokemons(offset: Int, limit: Int, key: String): Flow<ListPokemon> {
         return flow {
             emit(getPokemons(offset, limit, key))
         }

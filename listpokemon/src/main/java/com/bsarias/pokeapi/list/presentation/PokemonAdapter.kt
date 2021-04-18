@@ -1,13 +1,11 @@
 package com.bsarias.pokeapi.list.presentation
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bsarias.pokeapi.list.R
 import com.bsarias.pokeapi.list.databinding.ItemPokemonBinding
 
-class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
+class PokemonAdapter constructor(private val onClick: OnClickItemList) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
 
     var pokemons: List<String> = ArrayList()
 
@@ -19,11 +17,16 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pokemon = pokemons[position]
         holder.bind(pokemon)
+        holder.itemView.setOnClickListener {
+            onClick.onClickItem(pokemon)
+        }
     }
 
     override fun getItemCount(): Int = pokemons.size
 
-    class ViewHolder(private val binding: ItemPokemonBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    class ViewHolder(private val binding: ItemPokemonBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(pokemon: String) {
             binding.pokemonName.text = pokemon
         }
