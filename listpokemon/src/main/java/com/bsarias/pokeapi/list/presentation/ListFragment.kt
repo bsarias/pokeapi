@@ -51,7 +51,7 @@ class ListFragment : Fragment(), OnClickItemList {
     }
 
     private fun loadList(pokemons: ListPokemon) {
-        val adapter = PokemonAdapter(this)
+        val adapter = PokemonAdapter(this, requireContext())
         binding.recyclerPokemons.adapter = adapter
         adapter.pokemons = pokemons.results
     }
