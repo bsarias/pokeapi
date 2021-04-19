@@ -34,7 +34,6 @@ class ListPokemonRepositoryImpl(
 
     private fun joinNumberToName(offset: Int, name: String): String {
         val number = if (offset < 10) "00$offset" else if (offset < 100) "0$offset" else "$offset"
-        Log.e("index", number)
         return "$number-$name"
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bsarias.pokeapi.core.framework.di.IoDispatcher
+import com.bsarias.pokeapi.core.framework.di.MainDispatcher
 import com.bsarias.pokeapi.list.usecases.GetListPokemons
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 class ListViewModel @Inject constructor(
     private val getListPokemons: GetListPokemons,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) :
     ViewModel() {
 
