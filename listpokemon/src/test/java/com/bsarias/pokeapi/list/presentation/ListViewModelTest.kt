@@ -3,7 +3,7 @@ package com.bsarias.pokeapi.list.presentation
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.bsarias.pokeapi.core.domain.ListPokemon
-import com.bsarias.pokeapi.list.CoroutineTestRule
+import com.bsarias.pokeapi.core.testutils.CoroutineTestRule
 import com.bsarias.pokeapi.list.usecases.GetListPokemons
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -28,9 +28,9 @@ class ListViewModelTest {
     private lateinit var listViewModel: ListViewModel
 
     private val results = listOf("bulbasaur", "squirtle", "charmander")
-    private val key = "POKEMON"
+    private val key = "pokemons"
     private val offset = 0
-    private val limit = 100
+    private val limit = 151
 
     @Before
     fun init() {
@@ -41,8 +41,6 @@ class ListViewModelTest {
     @Test
     fun `when data get successfully`() {
 
-        listViewModel.getPokemons().observeForever(observer)
-
         coEvery {
             getListPokemons(offset, limit, key)
         } answers {
@@ -50,6 +48,9 @@ class ListViewModelTest {
                 emit(ListPokemon(results))
             }
         }
+
+        listViewModel.getPokemons().observeForever(observer)
+        listViewModel.loadPokemons()
 
         coVerify(exactly = 1) {
             getListPokemons(offset, limit, key)
@@ -59,6 +60,5 @@ class ListViewModelTest {
         listViewModel.getPokemons().removeObserver(observer)
 
     }
-
 
 }
