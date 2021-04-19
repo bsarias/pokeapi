@@ -1,18 +1,27 @@
 package com.bsarias.pokeapi.core.framework.storage
 
-import android.content.SharedPreferences
+import android.content.Context
+import java.util.*
 import javax.inject.Inject
 
-class MySharedPreferences @Inject constructor(private val sharedPreferences: SharedPreferences) {
+class MySharedPreferences @Inject constructor(private val context: Context) {
+
     fun getStringSet(key: String): List<String> {
-        return sharedPreferences.getStringSet(key, setOf())?.toList() ?: listOf()
+        return TreeSet(
+            context.getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE)
+                .getStringSet(key, setOf())
+        ).toList()
     }
 
     fun saveStringSet(key: String, value: List<String>) {
-        sharedPreferences.edit().putStringSet(key, value.toSet()).apply()
+        context.getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE).edit()
+            .putStringSet(key, TreeSet(value)).apply()
     }
 
     fun delete(key: String) {
-        sharedPreferences.edit().remove(key).apply()
+        context.getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE).edit()
+            .remove(key).apply()
     }
 }
+
+private const val SHARED_PREFERENCES_FILE = "DATA"
