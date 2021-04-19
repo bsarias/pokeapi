@@ -32,13 +32,15 @@ class ListFragment : Fragment(), OnClickItemList {
         (activity?.applicationContext as ListComponentProvider).provideListComponent().inject(this)
 
         viewModel.getPokemons().observe(requireActivity(), Observer(::getState))
+        viewModel.loadPokemons()
         return v
     }
 
     private fun getState(model: ListViewState) {
+        binding.progress.visibility = View.GONE
         when (model) {
             is ListViewState.Loading -> {
-                Snackbar.make(binding.root, "Loading", Snackbar.LENGTH_LONG).show()
+                binding.progress.visibility = View.VISIBLE
             }
             is ListViewState.Success -> {
                 loadList(model.listPokemon)
@@ -46,7 +48,6 @@ class ListFragment : Fragment(), OnClickItemList {
             is ListViewState.Error -> {
                 Snackbar.make(binding.root, model.error, Snackbar.LENGTH_LONG).show()
             }
-
         }
     }
 

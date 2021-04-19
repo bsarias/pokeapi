@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bsarias.pokeapi.core.framework.di.IoDispatcher
-import com.bsarias.pokeapi.core.framework.di.MainDispatcher
 import com.bsarias.pokeapi.list.usecases.GetListPokemons
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
@@ -21,17 +20,13 @@ class ListViewModel @Inject constructor(
     ViewModel() {
 
 
-    private val model: MutableLiveData<ListViewState> by lazy {
-        MutableLiveData<ListViewState>().also {
-            loadPokemons()
-        }
-    }
+    private val model: MutableLiveData<ListViewState> = MutableLiveData()
 
     fun getPokemons(): LiveData<ListViewState> {
         return model
     }
 
-    private fun loadPokemons() {
+    fun loadPokemons() {
         viewModelScope.launch {
             model.value = ListViewState.Loading
             getListPokemons(0, 151, "pokemons")
