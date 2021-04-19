@@ -11,7 +11,10 @@ import com.bsarias.pokeapi.core.domain.Pokemon
 import com.bsarias.pokeapi.details.databinding.FragmentDetailsBinding
 import com.bsarias.pokeapi.details.framework.di.DetailsComponentProvider
 import com.bumptech.glide.Glide
+import com.github.florent37.glidepalette.BitmapPalette
+import com.github.florent37.glidepalette.GlidePalette
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 import javax.inject.Inject
 
 class DetailsFragment : Fragment() {
@@ -54,12 +57,33 @@ class DetailsFragment : Fragment() {
 
     private fun loadPokemonData(pokemon: Pokemon) {
         binding.pokemonName.text = pokemon.name
-        binding.pokemonHeight.text = pokemon.height.toString()
-        binding.pokemonWeight.text = pokemon.weight.toString()
-        binding.pokemonTypes.text = pokemon.types
-        Glide.with(requireActivity())
-            .load(pokemon.officialArtwork)
-            .centerCrop()
-            .into(binding.pokemonImage);
+        val height = "${pokemon.height} decimeters"
+        binding.pokemonHeight.text = height
+        val weight = "${pokemon.weight} hectograms"
+        binding.pokemonWeight.text = weight
+        setTypes(pokemon.types)
+        setId(pokemon.id)
+        glidePokemon(pokemon.officialArtwork)
+    }
+
+    private fun setId(id: Int) {
+        binding.pokemonId.text = if (id < 10) "#00$id" else if (id < 100) "#0$id" else "#$id"
+    }
+
+    private fun glidePokemon(url: String) {
+        Glide.with(requireActivity()).load(url)
+            .listener(
+                GlidePalette.with(url)
+                    .use(BitmapPalette.Profile.MUTED)
+                    .intoBackground(binding.root, BitmapPalette.Swatch.RGB)
+                    .crossfade(true)
+            )
+            .into(binding.pokemonImage)
+    }
+
+    private fun setTypes(types: String) {
+        var res = types.replace("[", "")
+        res = res.replace("]", "")
+        binding.pokemonTypes.text = res.toUpperCase(Locale.ROOT)
     }
 }

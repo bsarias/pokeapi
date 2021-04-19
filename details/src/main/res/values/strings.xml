@@ -7,4 +7,6 @@
     <string name="pokemon_weight">pokemon weight</string>
     <string name="pokemon_height">pokemon height</string>
     <string name="height">Height:</string>
+    <string name="pokemonNumber">#001</string>
+    <string name="about">ABOUT</string>
 </resources>
