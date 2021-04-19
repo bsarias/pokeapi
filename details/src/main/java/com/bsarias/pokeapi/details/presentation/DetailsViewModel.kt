@@ -4,16 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bsarias.pokeapi.core.domain.Pokemon
+import com.bsarias.pokeapi.core.framework.di.IoDispatcher
 import com.bsarias.pokeapi.details.usecases.GetPokemonByName
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DetailsViewModel @Inject constructor(private val getPokemonByName: GetPokemonByName) :
+class DetailsViewModel @Inject constructor(
+    private val getPokemonByName: GetPokemonByName,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) :
     ViewModel() {
 
     private lateinit var pokemonName: String
@@ -36,7 +39,7 @@ class DetailsViewModel @Inject constructor(private val getPokemonByName: GetPoke
                 .catch { exception ->
                     model.postValue(DetailsViewState.Error(exception.localizedMessage!!))
                 }
-                .flowOn(Dispatchers.IO)
+                .flowOn(ioDispatcher)
                 .collect {
                     model.value = DetailsViewState.Success(it)
                 }
