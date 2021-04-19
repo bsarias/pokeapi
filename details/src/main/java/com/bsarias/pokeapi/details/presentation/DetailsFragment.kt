@@ -36,6 +36,7 @@ class DetailsFragment : Fragment() {
         binding.pokemonName.text = args.pokemonName
 
         viewModel.getDetail(args.pokemonName).observe(requireActivity(), Observer(::getState))
+        viewModel.loadDetails()
         return v
     }
 

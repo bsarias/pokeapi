@@ -21,27 +21,22 @@ class DetailsViewModel @Inject constructor(
 
     private lateinit var pokemonName: String
 
-    private val model: MutableLiveData<DetailsViewState> by lazy {
-        MutableLiveData<DetailsViewState>().also {
-            loadDetails()
-        }
-    }
+    private val model: MutableLiveData<DetailsViewState> = MutableLiveData()
 
     fun getDetail(pokemonName: String): LiveData<DetailsViewState> {
         this.pokemonName = pokemonName
         return model
     }
 
-    private fun loadDetails() {
-        viewModelScope.launch {
-            model.value = DetailsViewState.Loading
+    fun loadDetails() {
+        viewModelScope.launch(ioDispatcher) {
+            model.postValue(DetailsViewState.Loading)
             getPokemonByName(pokemonName)
                 .catch { exception ->
                     model.postValue(DetailsViewState.Error(exception.localizedMessage!!))
                 }
-                .flowOn(ioDispatcher)
                 .collect {
-                    model.value = DetailsViewState.Success(it)
+                    model.postValue(DetailsViewState.Success(it))
                 }
         }
     }

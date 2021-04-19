@@ -181,6 +181,7 @@
         app:layout_constraintHeight_percent="0.6" />
 
     <androidx.core.widget.ContentLoadingProgressBar
+        android:translationZ="40dp"
         android:id="@+id/progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="100dp"
