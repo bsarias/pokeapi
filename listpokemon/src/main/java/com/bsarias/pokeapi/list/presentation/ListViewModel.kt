@@ -4,15 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bsarias.pokeapi.core.framework.di.IoDispatcher
 import com.bsarias.pokeapi.list.usecases.GetListPokemons
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ListViewModel @Inject constructor(private val getListPokemons: GetListPokemons) :
+class ListViewModel @Inject constructor(
+    private val getListPokemons: GetListPokemons,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) :
     ViewModel() {
 
 
@@ -33,7 +37,7 @@ class ListViewModel @Inject constructor(private val getListPokemons: GetListPoke
                 .catch { exception ->
                     model.postValue(ListViewState.Error(exception.localizedMessage!!))
                 }
-                .flowOn(Dispatchers.IO)
+                .flowOn(ioDispatcher)
                 .collect {
                     model.value = ListViewState.Success(it)
                 }
